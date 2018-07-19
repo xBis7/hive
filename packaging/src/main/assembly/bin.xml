@@ -218,7 +218,7 @@
     </fileSet>
 
     <fileSet>
-      <directory>${project.parent.basedir}/standalone-metastore/metastore-common/src/main/sql</directory>
+      <directory>${project.parent.basedir}/standalone-metastore/metastore-server/src/main/sql</directory>
       <includes>
         <include>**/*</include>
       </includes>
