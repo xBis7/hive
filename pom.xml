@@ -189,6 +189,7 @@
     <netty.version>4.1.17.Final</netty.version>
     <netty3.version>3.10.5.Final</netty3.version>
     <parquet.version>1.10.0</parquet.version>
+    <aggdesigner.version>6.0</aggdesigner.version>
     <pig.version>0.16.0</pig.version>
     <plexus.version>1.5.6</plexus.version>
     <protobuf.version>2.5.0</protobuf.version>
@@ -925,6 +926,11 @@
         <version>${hadoop.version}</version>
       </dependency>
       <dependency>
+        <groupId>net.hydromatic</groupId>
+        <artifactId>aggdesigner-algorithm</artifactId>
+        <version>${aggdesigner.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.scala-lang</groupId>
         <artifactId>scala-library</artifactId>
         <version>${scala.version}</version>
@@ -1162,8 +1168,6 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <configLocation>${checkstyle.conf.dir}/checkstyle.xml</configLocation>
-          <propertyExpansion>config_loc=${checkstyle.conf.dir}</propertyExpansion>
-          <includeTestSourceDirectory>true</includeTestSourceDirectory>
         </configuration>
       </plugin>
       <plugin>
