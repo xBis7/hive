@@ -36,17 +36,17 @@
 
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
-    <value>jdbc:mysql://mariadb:3306/metastore_db</value>
+    <value>jdbc:mysql://postgres:5432/metastore_db</value>
   </property>
 
   <property>
     <name>javax.jdo.option.ConnectionUserName</name>
-    <value>admin</value>
+    <value>postgres</value>
   </property>
 
   <property>
     <name>javax.jdo.option.ConnectionPassword</name>
-    <value>admin</value>
+    <value>postgres</value>
   </property>
 
 </configuration>

@@ -201,7 +201,7 @@
                   <goal>copy-resources</goal>
                 </goals>
                 <configuration>
-                  <outputDirectory>${project.build.directory}/hive-${project.version}/compose</outputDirectory>
+                  <outputDirectory>${project.build.directory}/apache-hive-${project.version}-bin/apache-hive-${project.version}-bin/compose</outputDirectory>
                   <resources>
                     <resource>
                       <directory>src/standalone-metastore/compose</directory>
@@ -217,7 +217,7 @@
                   <goal>copy-resources</goal>
                 </goals>
                 <configuration>
-                  <outputDirectory>${project.build.directory}/hive-${project.version}</outputDirectory>
+                  <outputDirectory>${project.build.directory}/apache-hive-${project.version}-bin/apache-hive-${project.version}-bin</outputDirectory>
                   <resources>
                     <resource>
                       <directory>src/standalone-metastore</directory>
@@ -338,7 +338,7 @@
                   <name>${docker.image}</name>
                   <build>
                     <dockerFileDir>
-                      ${project.build.directory}/hive-${project.version}
+                      ${project.build.directory}/apache-hive-${project.version}-bin/apache-hive-${project.version}-bin
                     </dockerFileDir>
                   </build>
                 </image>

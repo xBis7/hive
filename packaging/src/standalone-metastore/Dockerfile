@@ -14,3 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+FROM apache/hive:@docker.hive-runner.version@
+
+COPY . /opt/hive
+
+WORKDIR /opt/hive
+
+RUN sudo chown -R hive:users /opt/hive
+

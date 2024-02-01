@@ -32,7 +32,7 @@ services:
       - hadoop_hadoop-network
 
   hive-metastore:
-    image: hive-metastore:latest
+    image: ${HIVE_RUNNER_IMAGE}:${HIVE_RUNNER_VERSION}
     hostname: hive-metastore
     depends_on:
       postgres:
