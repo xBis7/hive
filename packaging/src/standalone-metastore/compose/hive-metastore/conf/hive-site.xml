@@ -31,12 +31,12 @@
   </property>
   <property>
     <name>javax.jdo.option.ConnectionDriverName</name>
-    <value>com.mysql.cj.jdbc.Driver</value>
+    <value>org.postgresql.Driver</value>
   </property>
 
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
-    <value>jdbc:mysql://postgres:5432/metastore_db</value>
+    <value>jdbc:postgresql://postgres:5432/metastore_db</value>
   </property>
 
   <property>
@@ -47,6 +47,11 @@
   <property>
     <name>javax.jdo.option.ConnectionPassword</name>
     <value>postgres</value>
+  </property>
+
+  <property>
+    <name>datanucleus.autoCreateSchema</name>
+    <value>false</value>
   </property>
 
 </configuration>
