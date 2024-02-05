@@ -30,7 +30,6 @@ services:
       test:  ["CMD", "psql", "-U", "postgres", "postgres"]
     networks:
       - hadoop_hadoop-network
-      - hive-network
 
   hive-metastore:
     image: ${HIVE_RUNNER_IMAGE}:${HIVE_RUNNER_VERSION}
@@ -51,10 +50,8 @@ services:
       - HADOOP_CLASSPATH=${HADOOP_HOME}/share/hadoop/tools/lib/*
       - PATH=${HIVE_HOME}/bin:${HADOOP_HOME}/bin:${PATH}
       - METASTORE_DB_HOSTNAME=postgres
-    command: ["hive", "--service", "metastore"]
     networks:
       - hadoop_hadoop-network
-      - hive-network
 
 volumes:
   hdfs-data:
@@ -63,5 +60,3 @@ volumes:
 networks:
   hadoop_hadoop-network:
     external: true
-  hive-network:
-    driver: bridge

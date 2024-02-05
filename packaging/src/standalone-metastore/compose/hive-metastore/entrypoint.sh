@@ -22,7 +22,8 @@ set -x
 : ${DB_DRIVER:=postgres}
 
 SKIP_SCHEMA_INIT="${IS_RESUME:-false}"
-[[ $VERBOSE = "true" ]] && VERBOSE_MODE="--verbose" || VERBOSE_MODE=""
+VERBOSE_MODE="--verbose"
+HIVE_HOME="/opt/hive"
 
 function initialize_hive {
   COMMAND="-initOrUpgradeSchema"
