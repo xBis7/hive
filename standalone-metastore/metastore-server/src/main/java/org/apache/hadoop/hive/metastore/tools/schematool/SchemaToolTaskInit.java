@@ -63,7 +63,7 @@ class SchemaToolTaskInit extends SchemaToolTask {
         System.out.println("Initialization script completed");
       }
     } catch (IOException e) {
-      throw new HiveMetaException("Schema initialization FAILED! Metastore state would be inconsistent!", e);
+      throw new HiveMetaException("Schema1 initialization FAILED! Metastore state would be inconsistent!", e);
     }
 
     if (validate) {

@@ -21,7 +21,7 @@ services:
     image: 'postgres:latest'
     hostname: postgres
     ports:
-      - '5432:5432'
+      - '5433:5432' # Ranger postgres uses 5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -30,6 +30,7 @@ services:
       test:  ["CMD", "psql", "-U", "postgres", "postgres"]
     networks:
       - hadoop_hadoop-network
+      - hive-network
 
   hive-metastore:
     image: ${HIVE_RUNNER_IMAGE}:${HIVE_RUNNER_VERSION}
@@ -41,12 +42,19 @@ services:
       - '9083:9083' # Metastore Thrift
     volumes:
       - ../..:/opt/hive
-      - /var/log/hive:/opt/hive/logs
       - ./conf:/opt/hive/conf
+      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
+    entrypoint: ["/usr/local/bin/entrypoint.sh"]
     environment:
-      METASTORE_DB_HOSTNAME: postgres
+      - HADOOP_HOME=/opt/hadoop
+      - HIVE_HOME=/opt/hive
+      - HADOOP_CLASSPATH=${HADOOP_HOME}/share/hadoop/tools/lib/*
+      - PATH=${HIVE_HOME}/bin:${HADOOP_HOME}/bin:${PATH}
+      - METASTORE_DB_HOSTNAME=postgres
+    command: ["hive", "--service", "metastore"]
     networks:
       - hadoop_hadoop-network
+      - hive-network
 
 volumes:
   hdfs-data:
@@ -55,3 +63,5 @@ volumes:
 networks:
   hadoop_hadoop-network:
     external: true
+  hive-network:
+    driver: bridge
