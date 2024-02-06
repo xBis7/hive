@@ -33,7 +33,7 @@ import org.apache.hadoop.hive.metastore.events.PreAlterTableEvent;
 import org.apache.hadoop.hive.metastore.events.PreCreateTableEvent;
 import org.apache.hadoop.hive.metastore.events.PreDropTableEvent;
 import org.apache.hadoop.hive.metastore.events.PreEventContext;
-import org.apache.hadoop.hive.metastore.utils.MetaStoreServerUtils;
+import org.apache.hadoop.hive.metastore.utils.MetaStoreUtils;
 import org.apache.hadoop.hive.ql.metadata.HiveException;
 import org.apache.hadoop.hive.ql.metadata.HiveUtils;
 import org.apache.hadoop.hive.ql.security.HiveMetastoreAuthenticationProvider;
@@ -201,7 +201,7 @@ public class HiveMetaStoreAuthorizer extends MetaStorePreEventListener {
   boolean isSuperUser(String userName) {
     Configuration conf      = getConf();
     String        ipAddress = HiveMetaStore.HMSHandler.getIPAddress();
-    return (MetaStoreServerUtils.checkUserHasHostProxyPrivileges(userName, conf, ipAddress));
+    return (MetaStoreUtils.checkUserHasHostProxyPrivileges(userName, conf, ipAddress));
   }
 
   boolean isViewOperation(PreEventContext preEventContext) {
@@ -313,4 +313,3 @@ public class HiveMetaStoreAuthorizer extends MetaStorePreEventListener {
     return authorizableEvent.getAuthzContext().getUGI().getShortUserName();
   }
 }
-
