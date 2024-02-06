@@ -67,10 +67,10 @@
     <name>hive.security.authorization.manager</name>
     <value>org.apache.ranger.authorization.hive.authorizer.RangerHiveAuthorizerFactory</value>
   </property>
-  <!--  <property>-->
-  <!--    <name>hive.security.metastore.authorization.manager</name>-->
-  <!--    <value>org.apache.ranger.authorization.hive.authorizer.RangerHiveAuthorizer</value>-->
-  <!--  </property>-->
+  <property>
+    <name>hive.conf.restricted.list</name>
+    <value>hive.security.authorization.enabled,hive.security.authorization.manager,hive.security.authenticator.manager</value>
+  </property>
 
   <property>
     <name>hive.security.authenticator.manager</name>
