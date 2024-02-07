@@ -80,7 +80,6 @@
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-http</artifactId>
-      <version>${jetty.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
@@ -203,6 +202,11 @@
         </exclusion>
       </exclusions>
   </dependency>
+    <dependency>
+      <groupId>org.fusesource.jansi</groupId>
+      <artifactId>jansi</artifactId>
+      <version>${jansi.version}</version>
+    </dependency>
     <!-- test inter-project -->
     <dependency>
       <groupId>com.google.code.tempus-fugit</groupId>
@@ -287,29 +291,6 @@
     <profile>
       <id>dist</id>
       <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>generate-template</id>
-                <phase>package</phase>
-                <configuration>
-                  <target>
-                    <property name="compile.classpath" refid="maven.runtime.classpath"/>
-                    <taskdef name="templategen" classname="org.apache.hadoop.hive.ant.GenHiveTemplate"
-                             classpath="${compile.classpath}"/>
-                    <templategen templateFile="${basedir}/../conf/hive-default.xml.template"/>
-                  </target>
-                </configuration>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
       </build>
     </profile>
   </profiles>
