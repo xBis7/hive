@@ -57,7 +57,7 @@
   <!-- Configure Metastore for Storage Based Authorization -->
   <property>
     <name>hive.metastore.pre.event.listeners</name>
-    <value>org.apache.hadoop.hive.ql.security.authorization.AuthorizationPreEventListener</value>
+    <value>org.apache.hadoop.hive.ql.security.authorization.plugin.metastore.HiveMetaStoreAuthorizer</value>
   </property>
   <property>
     <name>hive.security.authorization.enabled</name>
