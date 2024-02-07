@@ -18,6 +18,7 @@
 
 package org.apache.hadoop.hive.ql.exec;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
@@ -67,6 +69,7 @@ import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.mapred.InputFormat;
 import org.apache.hadoop.mapred.InputSplit;
+import org.apache.hadoop.mapred.InvalidInputException;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapred.JobConfigurable;
 import org.apache.hadoop.mapred.RecordReader;
@@ -420,9 +423,21 @@ public class FetchOperator implements Serializable {
     return null;
   }
 
-  private void generateWrappedSplits(InputFormat inputFormat,
-      List<FetchInputFormatSplit> inputSplits, JobConf job) throws IOException {
-    InputSplit[] splits = inputFormat.getSplits(job, 1);
+  private void generateWrappedSplits(InputFormat inputFormat, List<FetchInputFormatSplit> inputSplits, JobConf job)
+      throws IOException {
+    InputSplit[] splits = new InputSplit[0];
+    try {
+      splits = inputFormat.getSplits(job, 1);
+    } catch (InvalidInputException iie) {
+      LOG.warn("Input path " + currPath + " is empty", iie);
+    } catch (Exception ex) {
+      Throwable t = ExceptionUtils.getRootCause(ex);
+      if (t instanceof FileNotFoundException || t instanceof InvalidInputException) {
+        LOG.warn("Input path " + currPath + " is empty", t);
+      } else {
+        throw ex;
+      }
+    }
     for (int i = 0; i < splits.length; i++) {
       inputSplits.add(new FetchInputFormatSplit(splits[i], inputFormat));
     }

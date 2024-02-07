@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ThreadPoolExecutor;
+
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -79,7 +81,7 @@ public class ThriftHttpCLIService extends ThriftCLIService {
       ExecutorService executorService = new ThreadPoolExecutorWithOomHook(minWorkerThreads,
           maxWorkerThreads,workerKeepAliveTime, TimeUnit.SECONDS,
           new SynchronousQueue<Runnable>(), new ThreadFactoryWithGarbageCleanup(threadPoolName), oomHook);
-      ExecutorThreadPool threadPool = new ExecutorThreadPool(executorService);
+      ExecutorThreadPool threadPool = new ExecutorThreadPool((ThreadPoolExecutor) executorService);
 
       // HTTP Server
       server = new Server(threadPool);

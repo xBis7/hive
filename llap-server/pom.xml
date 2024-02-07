@@ -29,6 +29,7 @@
 
   <properties>
     <hive.path.to.root>..</hive.path.to.root>
+    <jetty.version>9.4.40.v20210413</jetty.version>
   </properties>
 
   <dependencies>
