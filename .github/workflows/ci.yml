@@ -21,34 +21,45 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     timeout-minutes: 60
-    strategy:
-      matrix:
-        java: [ 8 ]
-      fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - name: Cache for maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: maven-repo-${{ hashFiles('**/pom.xml') }}-8-single
+          restore-keys: |
+            maven-repo-${{ hashFiles('**/pom.xml') }}-8
+            maven-repo-${{ hashFiles('**/pom.xml') }}
+            maven-repo-
       - name: Setup java
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: ${{ matrix.java }}
+          java-version: 8
       - name: Build with maven
-        run: mvn clean install package -DskipTests -Pdist
+        run: mvn clean install package -Dmaven.javadoc.skip=true -DskipTests -Pdist
 
   tests:
     needs:
       - build
     runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        java: [ 8 ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - name: Cache for maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: maven-repo-${{ hashFiles('**/pom.xml') }}-8-single
+          restore-keys: |
+            maven-repo-${{ hashFiles('**/pom.xml') }}-8
+            maven-repo-${{ hashFiles('**/pom.xml') }}
+            maven-repo-
       - name: Setup java
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: ${{ matrix.java }}
+          java-version: 8
       - name: Run tests with maven
         run: mvn test || true # Prevent workflow stop on test failure
 
@@ -57,12 +68,14 @@ jobs:
       - tests
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Get failed test classes
         run: |
-          if [ -d "target/surefire-reports" ]; then
-            echo "Failed Test Classes:"
-            grep -l -r "<failure" target/surefire-reports/ | sed 's|target/surefire-reports/||;s|.txt||;s|TEST-||;s|-|.|g'
-          else
-            echo "No test failures found or surefire-reports directory does not exist."
-          fi
+          echo "Searching for failed tests in every module target directories..."
+          find . -name surefire-reports -type d | while read dir; do
+            grep -l -r "<failure" "$dir" | sed 's|.*/surefire-reports/||;s|.txt||;s|TEST-||;s|-|.|g' | while read class; do
+              modulePath=$(dirname "$dir")
+              moduleName=$(basename "$modulePath")
+              echo "Module: $moduleName, Failed Test Class: $class"
+            done
+          done
