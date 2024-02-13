@@ -27,7 +27,6 @@ import org.apache.hadoop.security.UserGroupInformation;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -41,6 +40,8 @@ import java.util.HashMap;
 import static org.apache.hadoop.hive.conf.HiveConf.ConfVars.METASTORE_AGGREGATE_STATS_CACHE_ENABLED;
 import static org.apache.hadoop.hive.metastore.ReplChangeManager.SOURCE_OF_REPLICATION;
 
+
+// GBJ-TODO hadoop 3.3 upgrade unfinished
 public class TestReplicationOnHDFSEncryptedZones {
   private static String jksFile = System.getProperty("java.io.tmpdir") + "/test.jks";
   @Rule
@@ -85,7 +86,7 @@ public class TestReplicationOnHDFSEncryptedZones {
     primaryDbName = testName.getMethodName() + "_" + +System.currentTimeMillis();
     replicatedDbName = "replicated_" + primaryDbName;
     primary.run("create database " + primaryDbName + " WITH DBPROPERTIES ( '" +
-            SOURCE_OF_REPLICATION + "' = '1,2,3')");
+        SOURCE_OF_REPLICATION + "' = '1,2,3')");
   }
 
   @Test
