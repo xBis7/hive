@@ -44,8 +44,8 @@ import org.apache.hadoop.hive.metastore.api.NotificationEvent;
 import org.apache.hadoop.hive.metastore.api.PartitionEventType;
 import org.apache.hadoop.hive.metastore.conf.MetastoreConf;
 // GBJ-TODO hadoop 3.3 upgrade unfinished
-// import org.apache.hadoop.hive.metastore.messaging.MessageEncoder;
-// import org.apache.hadoop.hive.metastore.messaging.json.JSONMessageEncoder;
+//import org.apache.hadoop.hive.metastore.messaging.MessageEncoder;
+//import org.apache.hadoop.hive.metastore.messaging.json.JSONMessageEncoder;
 
 import org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat;
 import org.apache.hadoop.hive.ql.io.RCFileInputFormat;
