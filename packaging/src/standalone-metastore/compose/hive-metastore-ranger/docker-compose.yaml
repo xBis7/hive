@@ -55,10 +55,6 @@ services:
       - hadoop_hadoop-network
       - ranger-net
 
-volumes:
-  hdfs-data:
-    driver: local
-
 networks:
   hadoop_hadoop-network:
     external: true
