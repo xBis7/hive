@@ -29,7 +29,7 @@ services:
     healthcheck:
       test:  ["CMD", "psql", "-U", "postgres", "postgres"]
     networks:
-      - hadoop_hadoop-network
+      - shared-network
       - ranger-net
 
   hive-metastore:
@@ -52,11 +52,11 @@ services:
       - PATH=${HIVE_HOME}/bin:${HADOOP_HOME}/bin:${PATH}
       - METASTORE_DB_HOSTNAME=postgres
     networks:
-      - hadoop_hadoop-network
+      - shared-network
       - ranger-net
 
 networks:
-  hadoop_hadoop-network:
+  shared-network:
     external: true
   ranger-net:
     name: rangernw

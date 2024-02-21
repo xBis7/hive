@@ -36,7 +36,7 @@
 
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
-    <value>jdbc:postgresql://postgres:5432/metastore_db</value>
+    <value>jdbc:postgresql://postgres:5432/metastore_db?useSSL=false</value>
   </property>
 
   <property>
