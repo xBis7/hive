@@ -35,6 +35,11 @@
   </property>
 
   <property>
+    <name>hive.metastore.warehouse.dir</name>
+    <value>hdfs://namenode/opt/hive/data</value>
+  </property>
+
+  <property>
     <name>javax.jdo.option.ConnectionURL</name>
     <value>jdbc:postgresql://postgres:5432/metastore_db?useSSL=false</value>
   </property>
