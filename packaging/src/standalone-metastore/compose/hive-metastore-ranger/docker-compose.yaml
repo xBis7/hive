@@ -41,6 +41,7 @@ services:
       - '9083:9083' # Metastore Thrift
     volumes:
       - ../..:/opt/hive
+      - ./ranger:/etc/ranger
       - ./conf:/opt/hive/conf
       - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
     entrypoint: ["/usr/local/bin/entrypoint.sh"]
