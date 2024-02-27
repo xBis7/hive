@@ -33,7 +33,7 @@ services:
 
   hive-metastore:
     image: ${HIVE_RUNNER_IMAGE}:${HIVE_RUNNER_VERSION}
-    privileged: true
+#    privileged: true
     hostname: hive-metastore
     depends_on:
       postgres:
