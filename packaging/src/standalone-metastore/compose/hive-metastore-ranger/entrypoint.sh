@@ -26,7 +26,7 @@ VERBOSE_MODE="--verbose"
 HIVE_HOME="/opt/hive"
 
 function initialize_hive {
-  COMMAND="-initSchema"
+  COMMAND="-initOrUpgradeSchema"
   if [ "$(echo "$HIVE_VER" | cut -d '.' -f1)" -lt "4" ]; then
      COMMAND="-${SCHEMA_COMMAND:-initSchema}"
   fi

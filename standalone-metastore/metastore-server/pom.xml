@@ -180,7 +180,7 @@
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-hdfs-client</artifactId>
-      <optional>true</optional>
+<!--      <optional>true</optional>-->
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -334,7 +334,7 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <optional>true</optional>
+<!--      <optional>true</optional>-->
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
