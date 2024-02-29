@@ -56,6 +56,9 @@ fi
 # Make hive dir writable
 chmod 777 /tmp/hive
 
+# Debugger
+export HADOOP_CLIENT_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+
 # Start the metastore
 export METASTORE_PORT=${METASTORE_PORT:-9083}
 exec $HIVE_HOME/bin/hive --skiphadoopversion --skiphbasecp $VERBOSE_MODE --service metastore
