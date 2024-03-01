@@ -453,12 +453,12 @@ public class HiveMetaStoreAuthorizer extends MetaStorePreEventListener implement
         case DROP_PARTITION:
           authzEvent = new DropPartitionEvent(preEventContext);
           break;
-        case READ_TABLE:
-          authzEvent = new ReadTableEvent(preEventContext);
-          break;
-        case READ_DATABASE:
-          authzEvent = new ReadDatabaseEvent(preEventContext);
-          break;
+//        case READ_TABLE:
+//          authzEvent = new ReadTableEvent(preEventContext);
+//          break;
+//        case READ_DATABASE:
+//          authzEvent = new ReadDatabaseEvent(preEventContext);
+//          break;
         case CREATE_FUNCTION:
           authzEvent = new CreateFunctionEvent(preEventContext);
           break;
@@ -639,4 +639,3 @@ public class HiveMetaStoreAuthorizer extends MetaStorePreEventListener implement
     return UserGroupInformation.getCurrentUser();
   }
 }
-
