@@ -25,6 +25,12 @@
 		</description>
 	</property>
 
+<!--	For enabling Hive URL policies.-->
+<!--	<property>-->
+<!--		<name>ranger.plugin.hive.urlauth.filesystem.schemes</name>-->
+<!--		<value>file:,wasb:,adl:</value>-->
+<!--	</property>-->
+
 	<property>
 		<name>ranger.plugin.hive.policy.source.impl</name>
 		<value>org.apache.ranger.admin.client.RangerAdminRESTClient</value>
