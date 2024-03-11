@@ -33,7 +33,9 @@ services:
 
   hive-metastore:
     image: ${HIVE_RUNNER_IMAGE}:${HIVE_RUNNER_VERSION}
-    privileged: true
+# Enable privileged mode for creating a flamegraph.
+# The extra permissions are needed for enabling CPU and kernel profiling on the container.
+#    privileged: true
     hostname: hive-metastore
     depends_on:
       postgres:
