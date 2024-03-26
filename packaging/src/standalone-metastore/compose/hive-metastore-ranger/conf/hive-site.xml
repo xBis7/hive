@@ -62,7 +62,6 @@
   <!-- Configure Metastore for Storage Based Authorization -->
   <property>
     <name>hive.metastore.pre.event.listeners</name>
-    <!--    <value>org.apache.hadoop.hive.ql.security.authorization.plugin.metastore.HiveMetaStoreAuthorizer</value>-->
     <value>org.apache.hadoop.hive.ql.security.authorization.AuthorizationPreEventListener</value>
   </property>
   <property>
@@ -71,7 +70,10 @@
   </property>
   <property>
     <name>hive.security.authorization.manager</name>
-    <!--    <value>org.apache.ranger.authorization.hive.authorizer.RangerHiveAuthorizerFactory</value>-->
+    <value>org.apache.hadoop.hive.ql.security.authorization.StorageBasedAuthorizationProvider</value>
+  </property>
+  <property>
+    <name>hive.security.metastore.authorization.manager</name>
     <value>org.apache.hadoop.hive.ql.security.authorization.StorageBasedAuthorizationProvider</value>
   </property>
   <property>
@@ -81,7 +83,6 @@
 
   <property>
     <name>hive.security.authenticator.manager</name>
-    <!--    <value>org.apache.hadoop.hive.ql.security.SessionStateUserAuthenticator</value>-->
     <value>org.apache.hadoop.hive.ql.security.HadoopDefaultMetastoreAuthenticator</value>
   </property>
 
