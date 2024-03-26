@@ -66,6 +66,9 @@
   <properties>
     <hive.version.shortname>3.1.0</hive.version.shortname>
 
+    <docker.image>apache/hive:${project.version}</docker.image>
+    <docker-maven-plugin.version>0.29.0</docker-maven-plugin.version>
+
     <!-- Build Properties -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -970,7 +973,12 @@
   <build>
     <pluginManagement>
       <plugins>
-        <!-- plugins are always listed in sorted order by groupId, artifectId -->
+        <!-- plugins are always listed in sorted order by groupId, artifactId -->
+        <plugin>
+          <groupId>io.fabric8</groupId>
+          <artifactId>docker-maven-plugin</artifactId>
+          <version>${docker-maven-plugin.version}</version>
+        </plugin>
         <plugin>
           <groupId>org.antlr</groupId>
           <artifactId>antlr3-maven-plugin</artifactId>
@@ -1526,6 +1534,12 @@
         <skip.spark.files>
           **/ql/exec/spark/session/TestSparkSessionManagerImpl.java,**/TestMultiSessionsHS2WithLocalClusterSpark.java,**/TestJdbcWithLocalClusterSpark.java
         </skip.spark.files>
+      </properties>
+    </profile>
+    <profile>
+      <id>docker-build</id>
+      <properties>
+        <docker.image>${user.name}/hive:${project.version}</docker.image>
       </properties>
     </profile>
     <profile>
