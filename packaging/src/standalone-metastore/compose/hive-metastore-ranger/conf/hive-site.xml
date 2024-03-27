@@ -77,9 +77,11 @@
     <value>hive.security.authorization.enabled,hive.security.authorization.manager,hive.security.authenticator.manager</value>
   </property>
 
+<!--  Needed if Kerberos is configured-->
   <property>
     <name>hive.security.authenticator.manager</name>
-    <value>org.apache.hadoop.hive.ql.security.SessionStateUserAuthenticator</value>
+    <value>org.apache.hadoop.hive.ql.security.HadoopDefaultMetastoreAuthenticator</value>
+<!--    <value>org.apache.hadoop.hive.ql.security.SessionStateUserAuthenticator</value>-->
   </property>
 
 </configuration>
