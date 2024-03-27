@@ -69,10 +69,6 @@
     <value>true</value>
   </property>
   <property>
-    <name>hive.security.authorization.manager</name>
-    <value>org.apache.hadoop.hive.ql.security.authorization.StorageBasedAuthorizationProvider</value>
-  </property>
-  <property>
     <name>hive.security.metastore.authorization.manager</name>
     <value>org.apache.hadoop.hive.ql.security.authorization.StorageBasedAuthorizationProvider</value>
   </property>
@@ -81,6 +77,7 @@
     <value>hive.security.authorization.enabled,hive.security.authorization.manager,hive.security.authenticator.manager</value>
   </property>
 
+  <!-- Needed for Kerberos-->
   <property>
     <name>hive.security.authenticator.manager</name>
     <value>org.apache.hadoop.hive.ql.security.HadoopDefaultMetastoreAuthenticator</value>
