@@ -29,7 +29,7 @@
 
     <file.encoding>UTF-8</file.encoding>
     <downloadSources>true</downloadSources>
-    <docker.hive-runner.version>4.0.0-beta-2-SNAPSHOT</docker.hive-runner.version>
+    <docker.hive-runner.version>4.0.0</docker.hive-runner.version>
     <maven.test.skip>true</maven.test.skip>
   </properties>
   <profiles>
