@@ -189,8 +189,10 @@
                         <include>org/apache/hadoop/HadoopIllegalArgumentException.class</include>
                       </includes>
                     </filter>
+<!--                    In Hadoop 3.3.6, this has been moved from `hadoop-yarn` to `hadoop-common`. -->
+<!--                    It's renamed from `hadoop-yarn-registry` to `hadoop-registry`.-->
                     <filter>
-                      <artifact>org.apache.hadoop:hadoop-yarn-registry</artifact>
+                      <artifact>org.apache.hadoop:hadoop-registry</artifact>
                       <includes>
                         <include>org/apache/hadoop/registry/client/binding/*</include>
                         <include>org/apache/hadoop/registry/client/types/*</include>
@@ -199,12 +201,38 @@
                     <filter>
                       <artifact>org.apache.hadoop:hadoop-yarn-api</artifact>
                       <includes>
-			<include>org/apache/hadoop/yarn/api/records/ApplicationId.class</include>
+			            <include>org/apache/hadoop/yarn/api/records/ApplicationId.class</include>
                       </includes>
+                    </filter>
+                    <filter>
+                      <artifact>jakarta.xml.bind:jakarta.xml.bind-api</artifact>
+                      <excludes>
+                        <exclude>module-info.class</exclude>
+                      </excludes>
                     </filter>
                     <filter>
                       <artifact>*:*</artifact>
                       <excludes>
+<!--                        Since upgrading Hadoop to 3.3.6, without this exclusion we are getting the mvn error below.-->
+
+<!--                        [ERROR] Failed to execute goal org.apache.maven.plugins:maven-shade-plugin:3.1.0:shade -->
+<!--                        (default) on project hive-jdbc: Error creating shaded jar: -->
+<!--                        null: IllegalArgumentException -> [Help 1]-->
+
+<!--                        Right before the error, we see this-->
+<!--                        [WARNING] Discovered module-info.class. Shading will break its strong encapsulation.-->
+
+<!--                        In Hadoop `hadoop-client-runtime`, we see these exclusions-->
+<!--                        <exclude>META-INF/versions/9/module-info.class</exclude>-->
+
+<!--                        `META-INF/versions` dir has been added since Java9. This is used -->
+<!--                        for packaging classes which are meant for different Java version in one jar.-->
+<!--                        Excluding all contents of `META-INF/versions` dir, solves our issue.-->
+
+<!--                        We are currently building the project with Java8, -->
+<!--                        using Java11 which is > Java9, doesn't solve the issue.-->
+                        <exclude>META-INF/versions/**/*</exclude>
+<!--                        -->
                         <exclude>META-INF/*.SF</exclude>
                         <exclude>META-INF/*.DSA</exclude>
                         <exclude>META-INF/*.RSA</exclude>

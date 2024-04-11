@@ -41,7 +41,9 @@
       <excludes>
         <exclude>org.apache.hadoop:*</exclude>
         <exclude>org.slf4j:*</exclude>
-        <exclude>log4j:*</exclude>
+<!--        In Hadoop 3.3.6, this has been replaced by 'reload4j' and 'log4j' has been added to exclusions. -->
+<!--        We are trying to exclude something that doesn't exist and we are getting a mvn error.-->
+<!--        <exclude>log4j:*</exclude>-->
       </excludes>
     </dependencySet>
   </dependencySets>
