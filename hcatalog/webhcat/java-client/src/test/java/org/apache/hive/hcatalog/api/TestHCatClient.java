@@ -43,7 +43,7 @@ import org.apache.hadoop.hive.metastore.api.MetaException;
 import org.apache.hadoop.hive.metastore.api.NotificationEvent;
 import org.apache.hadoop.hive.metastore.api.PartitionEventType;
 import org.apache.hadoop.hive.metastore.conf.MetastoreConf;
-// GBJ-TODO hadoop 3.3 upgrade unfinished
+// GR-NOTE These classes have not been backported yet.
 // import org.apache.hadoop.hive.metastore.messaging.MessageEncoder;
 // import org.apache.hadoop.hive.metastore.messaging.json.JSONMessageEncoder;
 
@@ -125,7 +125,7 @@ public class TestHCatClient {
 
     // turn on db notification listener on metastore
     MetastoreConf.setClass(conf, MetastoreConf.ConfVars.TRANSACTIONAL_EVENT_LISTENERS, DbNotificationListener.class, TransactionalMetaStoreEventListener.class);
-    // GBJ-TODO hadoop 3.3 upgrade unfinished
+    // GR-NOTE: The two message encoder classes have not been backported yet.
     // MetastoreConf.setClass(conf, MetastoreConf.ConfVars.EVENT_MESSAGE_FACTORY, JSONMessageEncoder.class, MessageEncoder.class);
 
     msPort = MetaStoreTestUtils.startMetaStoreWithRetry(conf);
