@@ -41,7 +41,9 @@ import static org.apache.hadoop.hive.conf.HiveConf.ConfVars.METASTORE_AGGREGATE_
 import static org.apache.hadoop.hive.metastore.ReplChangeManager.SOURCE_OF_REPLICATION;
 
 
-// GBJ-TODO hadoop 3.3 upgrade unfinished
+// GR-NOTE The hadoop 3.3 upgrade made significant changes to this test which we have chosen not to backport for now.
+//  Those changes are here:
+//  https://github.com/apache/hive/tree/bd15e1490b/itests/hive-unit/src/test/java/org/apache/hadoop/hive/ql/parse/TestReplicationOnHDFSEncryptedZones.java
 public class TestReplicationOnHDFSEncryptedZones {
   private static String jksFile = System.getProperty("java.io.tmpdir") + "/test.jks";
   @Rule

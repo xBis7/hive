@@ -91,7 +91,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.apache.hadoop.hive.metastore.ReplChangeManager.SOURCE_OF_REPLICATION;
 
-// GBJ-TODO hadoop 3.3 upgrade unfinished
+// GR-NOTE The hadoop 3.3 upgrade made significant changes to this test which we have chosen not to backport for now.
+//  Those changes are here:
+//  https://github.com/apache/hive/tree/bd15e1490b/itests/hive-unit/src/test/java/org/apache/hadoop/hive/ql/parse/TestReplicationScenarios.java
 public class TestReplicationScenarios {
 
   @Rule
