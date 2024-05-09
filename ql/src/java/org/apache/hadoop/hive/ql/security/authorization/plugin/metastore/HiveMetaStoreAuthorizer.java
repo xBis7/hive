@@ -168,6 +168,12 @@ public class HiveMetaStoreAuthorizer extends MetaStorePreEventListener {
         case DROP_PARTITION:
           authzEvent = new DropPartitionEvent(preEventContext);
           break;
+        case READ_TABLE:
+          authzEvent = new ReadTableEvent(preEventContext);
+          break;
+        case READ_DATABASE:
+          authzEvent = new ReadDatabaseEvent(preEventContext);
+          break;
         case AUTHORIZATION_API_CALL:
         case READ_ISCHEMA:
         case CREATE_ISCHEMA:
