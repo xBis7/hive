@@ -112,7 +112,7 @@ import java.util.concurrent.TimeUnit;
       // Sleep for the renewal duration
       Thread.sleep(1000);
       thrown.expect(SecretManager.InvalidToken.class);
-      thrown.expectMessage("is expired");
+      thrown.expectMessage("has expired"); // Has been slightly modified in Hadoop 3.3.6.
       mgr.verifyDelegationToken(tokenStr);
     } finally {
       mgr.stopThreads();
