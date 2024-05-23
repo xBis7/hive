@@ -136,10 +136,21 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.mockito</groupId>-->
+<!--      <artifactId>mockito-all</artifactId>-->
+<!--      <version>${mockito-all.version}</version>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
+
+<!--    Hadoop 3.3.6 uses mockito-core and not mockito-all. Because the MiniDFSCluster depends on mockito-core-->
+<!--    everytime we initialize it, we get 'java.lang.IncompatibleClassChangeError: Implementing class'.-->
+<!--    Replacing the dependency fixes it.-->
+
     <dependency>
       <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-      <version>${mockito-all.version}</version>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito-core.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
