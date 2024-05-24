@@ -209,6 +209,7 @@ public class TestAvroSerdeUtils {
     try {
       // MiniDFSCluster litters files and folders all over the place.
       miniDfs = new MiniDFSCluster(new Configuration(), 1, true, null);
+
       miniDfs.getFileSystem().mkdirs(new Path("/path/to/schema"));
       FSDataOutputStream out = miniDfs.getFileSystem()
               .create(new Path("/path/to/schema/schema.avsc"));
