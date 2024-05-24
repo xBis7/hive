@@ -171,6 +171,7 @@
     <jdo-api.version>3.0.1</jdo-api.version>
     <jettison.version>1.1</jettison.version>
     <!-- Upgrade jetty version to the version that Hadoop is using.-->
+    <jetty.version40>9.4.40.v20210413</jetty.version40>
     <jetty.version>9.4.51.v20230217</jetty.version>
     <jersey.version>1.19</jersey.version>
     <!-- Glassfish jersey is included for Spark client test only -->
@@ -690,11 +691,6 @@
         <version>${mockito-all.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-core</artifactId>
-        <version>${mockito-core.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>${slf4j.version}</version>
@@ -989,7 +985,7 @@
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
+      <artifactId>mockito-all</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
