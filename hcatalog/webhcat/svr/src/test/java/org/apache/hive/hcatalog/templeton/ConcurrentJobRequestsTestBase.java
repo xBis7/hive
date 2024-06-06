@@ -21,7 +21,6 @@ package org.apache.hive.hcatalog.templeton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -159,8 +158,10 @@ public class ConcurrentJobRequestsTestBase {
     Mockito.doAnswer(timeoutResponseAnswer).when(mockDelegator).killJob(
               Mockito.any(String.class), Mockito.any(String.class));
 
+    // Check https://github.com/apache/hive/commit/2c691627de8b5d0cb49c76bd95efcb73efa1dad3
+    // UserArgs Map can be null - thus use any()
     Mockito.doNothing().when(mockDelegator).registerJob(Mockito.any(String.class),
-           Mockito.any(String.class), Mockito.any(String.class), Mockito.any(Map.class));
+           Mockito.any(String.class), Mockito.any(String.class), Mockito.any());
 
     JobRunnable submitJobRunnable = new JobRunnable() {
       @Override
