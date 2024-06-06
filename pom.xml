@@ -119,12 +119,11 @@
     <activemq.version>5.5.0</activemq.version>
     <ant.version>1.9.1</ant.version>
     <antlr.version>3.5.2</antlr.version>
-<!--    <apache-directory-server.version>1.5.6</apache-directory-server.version>-->
 <!--    Upgrade to use the same version as Hadoop.-->
 <!--    Upgrading jetty to the same version as Hadoop,-->
 <!--    also forces us to upgrade this dependency to avoid breaking compatibility.-->
     <apache-directory-server.version>2.0.0-M21</apache-directory-server.version>
-<!--    <apache-directory-clientapi.version>0.1</apache-directory-clientapi.version>-->
+<!--    Same for this one as the one right above-->
     <ldap-api.version>1.0.0-M33</ldap-api.version>
     <!-- Include arrow for LlapOutputFormatService -->
     <arrow.version>0.8.0</arrow.version>
@@ -176,7 +175,6 @@
     <jdo-api.version>3.0.1</jdo-api.version>
     <jettison.version>1.1</jettison.version>
     <!-- Upgrade jetty version to the version that Hadoop is using.-->
-    <jetty.version40>9.4.40.v20210413</jetty.version40>
     <jetty.version>9.4.51.v20230217</jetty.version>
     <jersey.version>1.19</jersey.version>
     <!-- Glassfish jersey is included for Spark client test only -->
@@ -195,6 +193,7 @@
     <opencsv.version>2.3</opencsv.version>
     <orc.version>1.5.8</orc.version>
     <mockito-all.version>1.10.19</mockito-all.version>
+<!--    mockito-core is needed by Hadoop testing code, especially related to the MiniDFSCluster-->
     <mockito-core.version>2.28.2</mockito-core.version>
     <mina.version>2.0.0-M5</mina.version>
     <netty.version>4.1.17.Final</netty.version>
