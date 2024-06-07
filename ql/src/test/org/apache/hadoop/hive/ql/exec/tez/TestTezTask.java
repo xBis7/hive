@@ -232,7 +232,7 @@ public class TestTezTask {
   @Test
   public void testClose() throws HiveException {
     task.close(work, 0, null);
-    verify(op, times(4)).jobClose(any(Configuration.class), eq(true));
+    verify(op, times(4)).jobClose(any(), eq(true));
   }
 
   @Test
@@ -241,13 +241,13 @@ public class TestTezTask {
     LocalResource res = createResource(inputOutputJars[0]);
     final List<LocalResource> resources = Collections.singletonList(res);
 
-    when(utils.localizeTempFiles(anyString(), any(Configuration.class), eq(inputOutputJars),
+    when(utils.localizeTempFiles(anyString(), any(), eq(inputOutputJars),
         any(String[].class))).thenReturn(resources);
     when(sessionState.isOpen()).thenReturn(true);
     when(sessionState.isOpening()).thenReturn(false);
     task.ensureSessionHasResources(sessionState, inputOutputJars);
     // TODO: ideally we should have a test for session itself.
-    verify(sessionState).ensureLocalResources(any(Configuration.class), eq(inputOutputJars));
+    verify(sessionState).ensureLocalResources(any(), eq(inputOutputJars));
   }
 
   private static LocalResource createResource(String url) {
