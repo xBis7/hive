@@ -20,7 +20,10 @@ package org.apache.hadoop.hive.ql.exec.tez;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.*;
+// Remove matchers to avoid errors such as
+// 'java: reference to anyBoolean is ambiguous'
+//  both method anyBoolean() in org.mockito.Mockito and method anyBoolean() in org.mockito.Matchers match
+// import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 import org.apache.hadoop.yarn.api.records.URL;
