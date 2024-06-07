@@ -191,7 +191,11 @@
     <log4j2.version>2.17.1</log4j2.version>
     <opencsv.version>2.3</opencsv.version>
     <orc.version>1.5.8</orc.version>
-    <mockito-core.version>1.10.19</mockito-core.version>
+<!--    HIVE-21670 replaces 'mockito-all' with 'mockito-core' but sets the version to 1.10.19-->
+<!--    We need to upgrade the version to resolve exception 'java.lang.IncompatibleClassChangeError: Implementing class'-->
+<!--    caused by Hadoop code trying to use the newer version of mockito.-->
+<!--    The two versions have been compiled with different jdk versions.-->
+    <mockito-core.version>2.28.2</mockito-core.version>
     <powermock.version>1.7.4</powermock.version>
     <mina.version>2.0.0-M5</mina.version>
     <netty.version>4.1.17.Final</netty.version>
