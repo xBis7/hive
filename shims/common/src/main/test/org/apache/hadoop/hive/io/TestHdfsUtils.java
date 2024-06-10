@@ -59,6 +59,7 @@ public class TestHdfsUtils {
     doThrow(RuntimeException.class).when(fs).setOwner(any(Path.class), any(String.class), any(String.class));
 
     HdfsUtils.setFullFileStatus(conf, mockHadoopFileStatus, "fakeGroup2", fs, new Path("fakePath"), false);
+    // The 2nd parameter is null. Replace 'any(String.class)' with 'any()'.
     verify(fs).setOwner(any(Path.class), any(), any(String.class));
   }
 
@@ -156,6 +157,7 @@ public class TestHdfsUtils {
     doThrow(RuntimeException.class).when(mockFsShell).run(any(String[].class));
 
     HdfsUtils.setFullFileStatus(conf, mockHadoopFileStatus, "", mock(FileSystem.class), fakeTarget, true, mockFsShell);
+    // It could be null, use 'any()'.
     verify(mockFsShell).run(new String[]{"-setfacl", "-R", "--set", any(), fakeTarget.toString()});
   }
 
@@ -179,6 +181,7 @@ public class TestHdfsUtils {
 
     HdfsUtils.setFullFileStatus(conf, mockHadoopFileStatus, "", mock(FileSystem.class), fakeTarget,
             true, mockFsShell);
+    // It could be null, use 'any()'.
     verify(mockFsShell).run(new String[]{"-chmod", "-R", any(), fakeTarget.toString()});
   }
 }

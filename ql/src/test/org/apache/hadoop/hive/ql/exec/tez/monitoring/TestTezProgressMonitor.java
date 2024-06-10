@@ -40,6 +40,7 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.verify;
@@ -86,6 +87,10 @@ public class TestTezProgressMonitor {
   @Test
   public void setupInternalStateOnObjectCreation() throws IOException, TezException {
     when(dagStatus.getState()).thenReturn(DAGStatus.State.RUNNING);
+//    Expected: is sameInstance(<succeeded>)
+//    but: was null
+
+//    Set could be null. Replace with 'any()'.
     when(dagClient.getVertexStatus(eq(MAPPER), any())).thenReturn(succeeded);
     when(dagClient.getVertexStatus(eq(REDUCER), any())).thenReturn(running);
 
