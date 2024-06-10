@@ -24,7 +24,6 @@ import static org.apache.hadoop.hive.metastore.api.LockState.WAITING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.any; // Matchers have been deprecated.
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.anyLong;
@@ -101,10 +100,10 @@ public class TestLock {
     when(mockLockResponse.getLockid()).thenReturn(LOCK_ID);
     when(mockLockResponse.getState()).thenReturn(ACQUIRED);
     // 'Long transactionId' in 'mockHeartbeatFactory.newInstance' might be null.
-    // When using 'any()' and the value is null then initialization fails and mockHeartbeatFactory.newInstance()
-    // instead of returning mockHeartbeat, it returns null. Use 'nullable()' instead of 'any()' to fix that.
+    // When using 'any(Long.class)' and the value is null then initialization fails and mockHeartbeatFactory.newInstance()
+    // instead of returning mockHeartbeat, it returns null. Use 'any()' instead of 'any(Long.class)' to fix that.
     when(
-        mockHeartbeatFactory.newInstance(any(IMetaStoreClient.class), any(LockFailureListener.class), nullable(Long.class),
+        mockHeartbeatFactory.newInstance(any(IMetaStoreClient.class), any(LockFailureListener.class), any(),
             any(Collection.class), anyLong(), anyInt())).thenReturn(mockHeartbeat);
 
     readLock = new Lock(mockMetaStoreClient, mockHeartbeatFactory, configuration, mockListener, USER, SOURCES,
@@ -142,8 +141,8 @@ public class TestLock {
     configuration.set("hive.txn.timeout", "100s");
     readLock.acquire();
 
-    // Set the 3rd parameter to nullable to match the initialization.
-    verify(mockHeartbeatFactory).newInstance(eq(mockMetaStoreClient), eq(mockListener), nullable(Long.class), eq(SOURCES),
+    // Set the 3rd parameter to any() to match the initialization.
+    verify(mockHeartbeatFactory).newInstance(eq(mockMetaStoreClient), eq(mockListener), any(), eq(SOURCES),
         eq(LOCK_ID), eq(75));
   }
 
