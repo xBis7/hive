@@ -246,6 +246,8 @@ public class TestTezTask {
   @Test
   public void testClose() throws HiveException {
     task.close(work, 0, null);
+    // jobClose(Configuration conf, boolean success)
+    // Configuration could be null. Use 'any()' instead of 'any(Configuration.class)'
     verify(op, times(4)).jobClose(any(), eq(true));
   }
 
@@ -255,12 +257,14 @@ public class TestTezTask {
     LocalResource res = createResource(inputOutputJars[0]);
     final List<LocalResource> resources = Collections.singletonList(res);
 
+    // Configuration could be null. Use 'any()' instead of 'any(Configuration.class)'
     when(utils.localizeTempFiles(anyString(), any(), eq(inputOutputJars),
         any(String[].class))).thenReturn(resources);
     when(sessionState.isOpen()).thenReturn(true);
     when(sessionState.isOpening()).thenReturn(false);
     task.ensureSessionHasResources(sessionState, inputOutputJars);
     // TODO: ideally we should have a test for session itself.
+    // Configuration could be null. Use 'any()' instead of 'any(Configuration.class)'
     verify(sessionState).ensureLocalResources(any(), eq(inputOutputJars));
   }
 
