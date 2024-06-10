@@ -24,7 +24,16 @@ import static org.junit.Assert.assertTrue;
 // 'java: reference to anyBoolean is ambiguous'
 //  both method anyBoolean() in org.mockito.Mockito and method anyBoolean() in org.mockito.Matchers match
 // import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyBoolean;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.apache.hadoop.yarn.api.records.URL;
 import org.apache.hive.common.util.Ref;
@@ -95,12 +104,15 @@ public class TestTezTask {
     utils = mock(DagUtils.class);
     fs = mock(FileSystem.class);
     path = mock(Path.class);
-    when(path.getFileSystem(any(Configuration.class))).thenReturn(fs);
-    when(utils.getTezDir(any(Path.class))).thenReturn(path);
+    when(path.getFileSystem(any())).thenReturn(fs);
+    when(utils.getTezDir(any())).thenReturn(path);
+    // JobConf and VertexType haven't been stubbed or passed in any object.
+    // For that reason, mockito recognizes that they could even be null.
+    // We should use just any(), otherwise the stub fails and we get a NullPointerException.
     when(
-        utils.createVertex(any(JobConf.class), any(BaseWork.class), any(Path.class),
+        utils.createVertex(any(), any(BaseWork.class), any(Path.class),
             any(FileSystem.class), any(Context.class),
-            anyBoolean(), any(TezWork.class), any(VertexType.class), any(Map.class))).thenAnswer(
+            anyBoolean(), any(TezWork.class), any(), any(Map.class))).thenAnswer(
         new Answer<Vertex>() {
 
           @Override
@@ -110,8 +122,10 @@ public class TestTezTask {
                 mock(ProcessorDescriptor.class), 0, mock(Resource.class));
           }
         });
-
-    when(utils.createEdge(any(JobConf.class), any(Vertex.class), any(Vertex.class),
+    // JobConf and VertexType haven't been stubbed or passed in any object.
+    // For that reason, mockito recognizes that they could even be null.
+    // We should use just any(), otherwise the stub fails and we get a NullPointerException.
+    when(utils.createEdge(any(), any(Vertex.class), any(Vertex.class),
             any(TezEdgeProperty.class), any(BaseWork.class), any(TezWork.class)))
             .thenAnswer(new Answer<Edge>() {
           @Override
