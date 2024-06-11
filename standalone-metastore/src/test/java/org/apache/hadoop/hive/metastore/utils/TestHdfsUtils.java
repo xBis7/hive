@@ -219,8 +219,7 @@ public class TestHdfsUtils {
 
     when(mockSourceStatus.getGroup()).thenReturn("fakeGroup1");
     when(mockHadoopFileStatus.getFileStatus()).thenReturn(mockSourceStatus);
-    // 'username' could be null. Replace 'any(String.class)' with 'any()' to avoid an error.
-    doThrow(RuntimeException.class).when(fs).setOwner(any(Path.class), any(), any(String.class));
+    doThrow(RuntimeException.class).when(fs).setOwner(any(Path.class), any(String.class), any(String.class));
 
     HdfsUtils.setFullFileStatus(conf, mockHadoopFileStatus, "fakeGroup2", fs, new Path("fakePath"), false);
     // 'username' could be null. Replace 'any(String.class)' with 'any()' to avoid an error.
