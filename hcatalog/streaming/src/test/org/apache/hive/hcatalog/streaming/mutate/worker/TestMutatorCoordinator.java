@@ -92,11 +92,8 @@ public class TestMutatorCoordinator {
         mockMutator);
     when(mockPartitionHelper.getPathForPartition(any(List.class))).thenReturn(PATH_A);
     when(mockRecordInspector.extractRecordIdentifier(RECORD)).thenReturn(ROW__ID_INSERT);
-//    Following stubbings are unnecessary (click to navigate to relevant line of code):
-//    1. -> at org.apache.hive.hcatalog.streaming.mutate.worker.TestMutatorCoordinator.createCoordinator(TestMutatorCoordinator.java:96)
-//    Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
-
 //    Unnecessary stubbing.
+//    This line causes a mockito UnnecessaryStubbingException.
 //    when(mockSequenceValidator.isInSequence(any(RecordIdentifier.class))).thenReturn(true);
     when(mockGroupingValidator.isInSequence(any(List.class), anyInt())).thenReturn(true);
 
