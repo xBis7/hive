@@ -324,12 +324,10 @@ public class TestLock {
 
   @Test
   public void testHeartbeatContinuesTException() throws Exception {
-    Throwable t = new TException();
-//    Following stubbings are unnecessary (click to navigate to relevant line of code):
-//    1. -> at org.apache.hive.hcatalog.streaming.mutate.client.lock.TestLock.testHeartbeatContinuesTException(TestLock.java:332)
-//    Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+//    Throwable t = new TException();
 
 //    This stub is unnecessary.
+//    This line causes a mockito UnnecessaryStubbingException.
 //    doThrow(t).when(mockMetaStoreClient).heartbeat(0, LOCK_ID);
     HeartbeatTimerTask task = new HeartbeatTimerTask(mockMetaStoreClient, mockListener, TRANSACTION_ID, SOURCES,
         LOCK_ID);

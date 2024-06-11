@@ -87,10 +87,7 @@ public class TestLdapAuthenticationProviderImpl {
 
     DirSearchFactory factory = mock(DirSearchFactory.class);
 
-//    Unnecessary stubbings detected in test class: TestLdapAuthenticationProviderImpl
-//    Clean & maintainable test code requires zero unnecessary code.
-//    Following stubbings are unnecessary
-
+//    This line causes a mockito UnnecessaryStubbingException.
 //    when(search.findUserDn("user1")).thenReturn("cn=user1,ou=PowerUsers,dc=mycorp,dc=com");
 
     when(factory.getInstance(conf, "cn=user1,ou=PowerUsers,dc=mycorp,dc=com", "Blah")).thenReturn(search);

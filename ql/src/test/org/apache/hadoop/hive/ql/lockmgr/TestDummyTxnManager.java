@@ -114,10 +114,7 @@ public class TestDummyTxnManager {
     LockException lEx = new LockException(ErrorMsg.LOCK_ACQUIRE_CANCELLED.getMsg());
     when(mockLockManager.lock(anyListOf(HiveLockObj.class), eq(false), eq(lDrvState))).thenReturn(expectedLocks);
     when(mockLockManager.lock(anyListOf(HiveLockObj.class), eq(false), eq(lDrvInp))).thenThrow(lEx);
-//    Unnecessary stubbings detected in test class: TestDummyTxnManager
-//    Clean & maintainable test code requires zero unnecessary code.
-//    Following stubbings are unnecessary
-
+//    This line causes a mockito UnnecessaryStubbingException.
 //    doNothing().when(mockLockManager).setContext(any(HiveLockManagerCtx.class));
     doNothing().when(mockLockManager).close();
     ArgumentCaptor<List> lockObjsCaptor = ArgumentCaptor.forClass(List.class);
