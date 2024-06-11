@@ -110,6 +110,7 @@
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-runner</artifactId>
       <version>${jetty.version}</version>
+      <classifier>shaded</classifier>
       <exclusions>
         <exclusion>
           <groupId>org.mortbay.jasper</groupId>
@@ -284,17 +285,12 @@
           </exclusion>
       </exclusions>
     </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-      <version>${mockito-all.version}</version>
-      <scope>test</scope>
-    </dependency>
 
+<!--Replacing dependency 'org.apache.directory.client.ldap:ldap-client-api'-->
     <dependency>
-      <groupId>org.apache.directory.client.ldap</groupId>
-      <artifactId>ldap-client-api</artifactId>
-      <version>${apache-directory-clientapi.version}</version>
+      <groupId>org.apache.directory.api</groupId>
+      <artifactId>api-ldap-codec-core</artifactId>
+      <version>${ldap-api.version}</version>
       <scope>test</scope>
     </dependency>
 

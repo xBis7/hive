@@ -29,7 +29,8 @@
 
   <properties>
     <hive.path.to.root>..</hive.path.to.root>
-    <jetty.version>9.4.40.v20210413</jetty.version>
+    <!-- Upgrade jetty version to the version that Hadoop is using.-->
+    <jetty.version>9.4.51.v20230217</jetty.version>
   </properties>
 
   <dependencies>
@@ -301,12 +302,6 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-      <version>${mockito-all.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>

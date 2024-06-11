@@ -119,8 +119,12 @@
     <activemq.version>5.5.0</activemq.version>
     <ant.version>1.9.1</ant.version>
     <antlr.version>3.5.2</antlr.version>
-    <apache-directory-server.version>1.5.6</apache-directory-server.version>
-    <apache-directory-clientapi.version>0.1</apache-directory-clientapi.version>
+<!--    Upgrade to use the same version as Hadoop.-->
+<!--    Upgrading jetty to the same version as Hadoop,-->
+<!--    also forces us to upgrade this dependency to avoid breaking compatibility.-->
+    <apache-directory-server.version>2.0.0-M21</apache-directory-server.version>
+<!--    Same for this one as the one right above-->
+    <ldap-api.version>1.0.0-M33</ldap-api.version>
     <!-- Include arrow for LlapOutputFormatService -->
     <arrow.version>0.8.0</arrow.version>
     <avatica.version>1.11.0</avatica.version>
@@ -170,7 +174,8 @@
     <javolution.version>5.5.1</javolution.version>
     <jdo-api.version>3.0.1</jdo-api.version>
     <jettison.version>1.1</jettison.version>
-    <jetty.version>9.4.40.v20210413</jetty.version>
+    <!-- Upgrade jetty version to the version that Hadoop is using.-->
+    <jetty.version>9.4.51.v20230217</jetty.version>
     <jersey.version>1.19</jersey.version>
     <!-- Glassfish jersey is included for Spark client test only -->
     <glassfish.jersey.version>2.22.2</glassfish.jersey.version>
@@ -186,7 +191,11 @@
     <log4j2.version>2.17.1</log4j2.version>
     <opencsv.version>2.3</opencsv.version>
     <orc.version>1.5.8</orc.version>
-    <mockito-all.version>1.10.19</mockito-all.version>
+<!--    HIVE-21670 replaces 'mockito-all' with 'mockito-core' but sets the version to 1.10.19-->
+<!--    We need to upgrade the version to resolve exception 'java.lang.IncompatibleClassChangeError: Implementing class'-->
+<!--    caused by Hadoop code trying to use the newer version of mockito.-->
+<!--    The two versions have been compiled with different jdk versions.-->
+    <mockito-core.version>2.28.2</mockito-core.version>
     <mina.version>2.0.0-M5</mina.version>
     <netty.version>4.1.17.Final</netty.version>
     <netty3.version>3.10.5.Final</netty3.version>
@@ -683,8 +692,8 @@
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
-        <artifactId>mockito-all</artifactId>
-        <version>${mockito-all.version}</version>
+        <artifactId>mockito-core</artifactId>
+        <version>${mockito-core.version}</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
@@ -981,7 +990,7 @@
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
+      <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
