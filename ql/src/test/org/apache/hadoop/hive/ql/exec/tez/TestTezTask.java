@@ -20,20 +20,8 @@ package org.apache.hadoop.hive.ql.exec.tez;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-// Remove matchers to avoid errors such as
-// 'java: reference to anyBoolean is ambiguous'
-//  both method anyBoolean() in org.mockito.Mockito and method anyBoolean() in org.mockito.Matchers match
-// import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.anyBoolean;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
 import org.apache.hadoop.yarn.api.records.URL;
 import org.apache.hive.common.util.Ref;
@@ -104,15 +92,12 @@ public class TestTezTask {
     utils = mock(DagUtils.class);
     fs = mock(FileSystem.class);
     path = mock(Path.class);
-    when(path.getFileSystem(any())).thenReturn(fs);
-    when(utils.getTezDir(any())).thenReturn(path);
-    // JobConf and VertexType haven't been stubbed or passed in any object.
-    // For that reason, mockito recognizes that they could even be null.
-    // We should use just any(), otherwise the stub fails and we get a NullPointerException.
+    when(path.getFileSystem(any(Configuration.class))).thenReturn(fs);
+    when(utils.getTezDir(any(Path.class))).thenReturn(path);
     when(
-        utils.createVertex(any(), any(BaseWork.class), any(Path.class),
+        utils.createVertex(any(JobConf.class), any(BaseWork.class), any(Path.class),
             any(FileSystem.class), any(Context.class),
-            anyBoolean(), any(TezWork.class), any(), any(Map.class))).thenAnswer(
+            anyBoolean(), any(TezWork.class), any(VertexType.class), any(Map.class))).thenAnswer(
         new Answer<Vertex>() {
 
           @Override
@@ -122,10 +107,8 @@ public class TestTezTask {
                 mock(ProcessorDescriptor.class), 0, mock(Resource.class));
           }
         });
-    // JobConf and VertexType haven't been stubbed or passed in any object.
-    // For that reason, mockito recognizes that they could even be null.
-    // We should use just any(), otherwise the stub fails and we get a NullPointerException.
-    when(utils.createEdge(any(), any(Vertex.class), any(Vertex.class),
+
+    when(utils.createEdge(any(JobConf.class), any(Vertex.class), any(Vertex.class),
             any(TezEdgeProperty.class), any(BaseWork.class), any(TezWork.class)))
             .thenAnswer(new Answer<Edge>() {
           @Override
@@ -246,9 +229,7 @@ public class TestTezTask {
   @Test
   public void testClose() throws HiveException {
     task.close(work, 0, null);
-    // jobClose(Configuration conf, boolean success)
-    // Configuration could be null. Use 'any()' instead of 'any(Configuration.class)'
-    verify(op, times(4)).jobClose(any(), eq(true));
+    verify(op, times(4)).jobClose(any(Configuration.class), eq(true));
   }
 
   @Test
@@ -257,15 +238,13 @@ public class TestTezTask {
     LocalResource res = createResource(inputOutputJars[0]);
     final List<LocalResource> resources = Collections.singletonList(res);
 
-    // Configuration could be null. Use 'any()' instead of 'any(Configuration.class)'
-    when(utils.localizeTempFiles(anyString(), any(), eq(inputOutputJars),
+    when(utils.localizeTempFiles(anyString(), any(Configuration.class), eq(inputOutputJars),
         any(String[].class))).thenReturn(resources);
     when(sessionState.isOpen()).thenReturn(true);
     when(sessionState.isOpening()).thenReturn(false);
     task.ensureSessionHasResources(sessionState, inputOutputJars);
     // TODO: ideally we should have a test for session itself.
-    // Configuration could be null. Use 'any()' instead of 'any(Configuration.class)'
-    verify(sessionState).ensureLocalResources(any(), eq(inputOutputJars));
+    verify(sessionState).ensureLocalResources(any(Configuration.class), eq(inputOutputJars));
   }
 
   private static LocalResource createResource(String url) {

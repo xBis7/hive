@@ -197,15 +197,10 @@ public class TestRpc {
     try {
       autoClose(new RpcServer(config));
       assertTrue("Invalid port range should throw an exception", false); // Should not reach here
-//    } catch(IllegalArgumentException e) {
-      // The method throws an IOException and not IllegalArgumentException. Also, the error message is different.
-      // This test is failing even without the backport.
-    } catch (IOException e) {
-//      assertEquals(
-//          "Malformed configuration value for " + HiveConf.ConfVars.SPARK_RPC_SERVER_PORT.varname,
-//          e.getMessage());
-      String errMsg = "Incorrect RPC server port configuration for HiveServer2";
-      assertEquals(errMsg, e.getMessage());
+    } catch(IllegalArgumentException e) {
+      assertEquals(
+              "Malformed configuration value for " + HiveConf.ConfVars.SPARK_RPC_SERVER_PORT.varname,
+              e.getMessage());
     }
 
     // Retry logic

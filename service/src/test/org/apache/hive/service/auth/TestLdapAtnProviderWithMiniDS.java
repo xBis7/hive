@@ -45,12 +45,7 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(FrameworkRunner.class)
 @CreateLdapServer(transports = {
-  @CreateTransport(protocol = "LDAP",
-      // If we don't provide the address and the port here,
-      // it fails with this exception
-      // `Caused by: java.net.ConnectException: Connection refused (Connection refused)`
-      // The problem is the port. The address is set to localhost but the port is assigned from the system.
-    address = "localhost", port = 10390),
+  @CreateTransport(protocol = "LDAP"),
   @CreateTransport(protocol = "LDAPS")
 })
 

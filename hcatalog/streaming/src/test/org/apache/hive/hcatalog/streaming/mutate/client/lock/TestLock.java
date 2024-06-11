@@ -24,10 +24,10 @@ import static org.apache.hadoop.hive.metastore.api.LockState.WAITING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.any; // Matchers have been deprecated.
-import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.eq;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -99,11 +99,8 @@ public class TestLock {
     when(mockMetaStoreClient.lock(any(LockRequest.class))).thenReturn(mockLockResponse);
     when(mockLockResponse.getLockid()).thenReturn(LOCK_ID);
     when(mockLockResponse.getState()).thenReturn(ACQUIRED);
-    // 'Long transactionId' in 'mockHeartbeatFactory.newInstance' might be null.
-    // When using 'any(Long.class)' and the value is null then initialization fails and mockHeartbeatFactory.newInstance()
-    // instead of returning mockHeartbeat, it returns null. Use 'any()' instead of 'any(Long.class)' to fix that.
     when(
-        mockHeartbeatFactory.newInstance(any(IMetaStoreClient.class), any(LockFailureListener.class), any(),
+        mockHeartbeatFactory.newInstance(any(IMetaStoreClient.class), any(LockFailureListener.class), any(Long.class),
             any(Collection.class), anyLong(), anyInt())).thenReturn(mockHeartbeat);
 
     readLock = new Lock(mockMetaStoreClient, mockHeartbeatFactory, configuration, mockListener, USER, SOURCES,
@@ -141,8 +138,7 @@ public class TestLock {
     configuration.set("hive.txn.timeout", "100s");
     readLock.acquire();
 
-    // Set the 3rd parameter to any() to match the initialization.
-    verify(mockHeartbeatFactory).newInstance(eq(mockMetaStoreClient), eq(mockListener), any(), eq(SOURCES),
+    verify(mockHeartbeatFactory).newInstance(eq(mockMetaStoreClient), eq(mockListener), any(Long.class), eq(SOURCES),
         eq(LOCK_ID), eq(75));
   }
 
@@ -324,11 +320,8 @@ public class TestLock {
 
   @Test
   public void testHeartbeatContinuesTException() throws Exception {
-//    Throwable t = new TException();
-
-//    This stub is unnecessary.
-//    This line causes a mockito UnnecessaryStubbingException.
-//    doThrow(t).when(mockMetaStoreClient).heartbeat(0, LOCK_ID);
+    Throwable t = new TException();
+    doThrow(t).when(mockMetaStoreClient).heartbeat(0, LOCK_ID);
     HeartbeatTimerTask task = new HeartbeatTimerTask(mockMetaStoreClient, mockListener, TRANSACTION_ID, SOURCES,
         LOCK_ID);
     task.run();

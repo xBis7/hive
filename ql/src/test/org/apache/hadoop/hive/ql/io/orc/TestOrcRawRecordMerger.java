@@ -273,12 +273,7 @@ public class TestOrcRawRecordMerger {
     OrcStruct row4 = createOriginalRow("fourth");
     OrcStruct row5 = createOriginalRow("fifth");
 
-    // reader.rowOptions() accepts a Configuration parameter.
-    // HiveConf extends Configuration but after switching to 'mockito-core',
-    // we need to specify the exact class that we are passing.
-    // Using 'Mockito.any(HiveConf.class)' gives us a NullPointerException when trying to access RecordReader.
-    // We need to either use 'Mockito.any()' or 'Mockito.any(Configuration.class)'.
-    Mockito.when(reader.rowsOptions(Mockito.any(Reader.Options.class), Mockito.any(Configuration.class)))
+    Mockito.when(reader.rowsOptions(Mockito.any(Reader.Options.class), Mockito.any(HiveConf.class)))
         .thenReturn(recordReader);
     Mockito.when(recordReader.hasNext()).
         thenReturn(true, true, true, true, true, false);
@@ -414,12 +409,7 @@ public class TestOrcRawRecordMerger {
     types.add(typeBuilder.build());
 
     Mockito.when(reader.getTypes()).thenReturn(types);
-    // reader.rowOptions() accepts a Configuration parameter.
-    // HiveConf extends Configuration but after switching to 'mockito-core',
-    // we need to specify the exact class that we are passing.
-    // Using 'Mockito.any(HiveConf.class)' gives us a NullPointerException when trying to access RecordReader.
-    // We need to either use 'Mockito.any()' or 'Mockito.any(Configuration.class)'.
-    Mockito.when(reader.rowsOptions(Mockito.any(Reader.Options.class), Mockito.any(Configuration.class)))
+    Mockito.when(reader.rowsOptions(Mockito.any(Reader.Options.class), Mockito.any(HiveConf.class)))
         .thenReturn(recordReader);
 
     OrcStruct row1 = new OrcStruct(OrcRecordUpdater.FIELDS);
