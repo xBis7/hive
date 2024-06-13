@@ -30,7 +30,10 @@
     <maven>2.2.1</maven>
   </prerequisites>
 
+<!--  The modules are built in the order that they are specified.-->
+<!--  By placing the 'jetty-runner-shaded' first, we make sure that it's built before everything else.-->
   <modules>
+    <module>jetty-runner-shaded</module>
     <module>accumulo-handler</module>
     <module>vector-code-gen</module>
     <module>beeline</module>

@@ -182,11 +182,12 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-runner</artifactId>
-      <version>${jetty.version}</version>
+<!--      Use the jetty-runner-shaded jar instead of org.eclipse.jetty:jetty-runner-->
+<!--      because it contains the necessary package relocations. -->
+      <groupId>org.apache.hive</groupId>
+      <artifactId>jetty-runner-shaded</artifactId>
+      <version>${project.version}</version>
       <scope>test</scope>
-      <classifier>shaded</classifier>
     </dependency>
     <dependency>
       <groupId>com.sun.jersey</groupId>
