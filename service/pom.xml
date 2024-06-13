@@ -113,9 +113,11 @@
       <artifactId>jetty-runner-shaded</artifactId>
       <version>${project.version}</version>
       <exclusions>
+<!--        It's bringing in the jetty-runner as well and it's causing-->
+<!--        Exception in thread "main" java.lang.IncompatibleClassChangeError: Implementing class-->
         <exclusion>
-          <groupId>org.mortbay.jasper</groupId>
-          <artifactId>apache-jsp</artifactId>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-runner</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
