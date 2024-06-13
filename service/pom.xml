@@ -107,14 +107,17 @@
       <version>${jetty.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-runner</artifactId>
-      <version>${jetty.version}</version>
-      <classifier>shaded</classifier>
+<!--      Use the jetty-runner-shaded jar instead of org.eclipse.jetty:jetty-runner-->
+<!--      because it contains the necessary package relocations. -->
+      <groupId>org.apache.hive</groupId>
+      <artifactId>jetty-runner-shaded</artifactId>
+      <version>${project.version}</version>
       <exclusions>
+<!--        It's bringing in the jetty-runner as well and it's causing-->
+<!--        Exception in thread "main" java.lang.IncompatibleClassChangeError: Implementing class-->
         <exclusion>
-          <groupId>org.mortbay.jasper</groupId>
-          <artifactId>apache-jsp</artifactId>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-runner</artifactId>
         </exclusion>
       </exclusions>
     </dependency>

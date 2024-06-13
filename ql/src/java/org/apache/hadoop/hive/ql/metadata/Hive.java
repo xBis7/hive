@@ -446,7 +446,7 @@ public class Hive {
 
   private boolean isCurrentUserOwner() throws HiveException {
     try {
-      return owner == null || owner.toString().equals(UserGroupInformation.getCurrentUser().toString());
+      return owner == null || owner.equals(UserGroupInformation.getCurrentUser());
     } catch(IOException e) {
       throw new HiveException("Error getting current user: " + e.getMessage(), e);
     }
