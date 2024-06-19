@@ -47,6 +47,7 @@ services:
       - ../..:/opt/hive
       - ./ranger:/etc/ranger
       - ./conf:/opt/hive/conf
+      - ./test.sh:/usr/local/bin/test.sh
       - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
     entrypoint: ["/usr/local/bin/entrypoint.sh"]
     environment:

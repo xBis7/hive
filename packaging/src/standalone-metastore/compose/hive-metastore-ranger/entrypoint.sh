@@ -61,4 +61,21 @@ export HADOOP_CLIENT_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n
 
 # Start the metastore
 export METASTORE_PORT=${METASTORE_PORT:-9083}
-exec $HIVE_HOME/bin/hive --skiphadoopversion --skiphbasecp $VERBOSE_MODE --service metastore
+#exec $HIVE_HOME/bin/hive --skiphadoopversion --skiphbasecp $VERBOSE_MODE --service metastore
+
+start_metastore() {
+  $HIVE_HOME/bin/hive --skiphadoopversion --skiphbasecp $VERBOSE_MODE --service metastore
+}
+
+# Start the metastore once.
+start_metastore
+
+# This loop has two usages.
+# The first is to keep the entrypoint.sh script alive and running.
+# The second is to immediately restart the metastore service if stopped.
+#while true; do
+#  start_metastore
+#  if [ -f /tmp/restart.sh]; then
+#    source /tmp/restart.sh
+#  fi
+#done
