@@ -17,19 +17,19 @@
 
 version: '3.8'
 services:
-  postgres:
-    image: 'postgres:latest'
-    hostname: postgres
-    ports:
-      - '5433:5432' # Ranger postgres uses 5432
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: metastore_db
-    healthcheck:
-      test:  ["CMD", "psql", "-U", "postgres", "postgres"]
-    networks:
-      - ranger-net
+#  postgres:
+#    image: 'postgres:latest'
+#    hostname: postgres
+#    ports:
+#      - '5433:5432' # Ranger postgres uses 5432
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#      POSTGRES_DB: metastore_db
+#    healthcheck:
+#      test:  ["CMD", "psql", "-U", "postgres", "postgres"]
+#    networks:
+#      - ranger-net
 
   hive-metastore:
     image: ${HIVE_RUNNER_IMAGE}:${HIVE_RUNNER_VERSION}
@@ -37,9 +37,9 @@ services:
 # The extra permissions are needed for enabling CPU and kernel profiling on the container.
 #    privileged: true
     hostname: hive-metastore
-    depends_on:
-      postgres:
-        condition: service_healthy
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
     ports:
       - '9083:9083' # Metastore Thrift
       - '5005:5005' # Debugger
@@ -50,6 +50,7 @@ services:
       - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
     entrypoint: ["/usr/local/bin/entrypoint.sh"]
     environment:
+      - IS_RESUME=${IS_RESUME}
       - HADOOP_HOME=/opt/hadoop
       - HIVE_HOME=/opt/hive
       - HADOOP_CLASSPATH=${HADOOP_HOME}/share/hadoop/tools/lib/*
