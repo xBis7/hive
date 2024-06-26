@@ -59,7 +59,7 @@ public class AcidEventListener extends MetaStoreEventListener {
     // when there are a lot of tables
     Database db = dbEvent.getDatabase();
     if (db == null) {
-      LOG.warn("Database is null during drop database event");
+      LOG.info("Database is null during drop database event");
       return;
     }
     txnHandler = getTxnHandler();
