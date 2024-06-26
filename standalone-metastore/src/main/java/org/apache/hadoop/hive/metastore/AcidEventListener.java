@@ -34,6 +34,8 @@ import org.apache.hadoop.hive.metastore.events.DropPartitionEvent;
 import org.apache.hadoop.hive.metastore.events.DropTableEvent;
 import org.apache.hadoop.hive.metastore.txn.TxnStore;
 import org.apache.hadoop.hive.metastore.txn.TxnUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -43,6 +45,7 @@ public class AcidEventListener extends MetaStoreEventListener {
 
   private TxnStore txnHandler;
   private Configuration conf;
+  private static final Logger LOG = LoggerFactory.getLogger(AcidEventListener.class);
 
   public AcidEventListener(Configuration configuration) {
     super(configuration);
@@ -54,6 +57,11 @@ public class AcidEventListener extends MetaStoreEventListener {
     // We can loop thru all the tables to check if they are ACID first and then perform cleanup,
     // but it's more efficient to unconditionally perform cleanup for the database, especially
     // when there are a lot of tables
+    Database db = dbEvent.getDatabase();
+    if (db == null) {
+      LOG.info("Database is null during drop database event");
+      return;
+    }
     txnHandler = getTxnHandler();
     txnHandler.cleanupRecords(HiveObjectType.DATABASE, dbEvent.getDatabase(), null, null);
   }
