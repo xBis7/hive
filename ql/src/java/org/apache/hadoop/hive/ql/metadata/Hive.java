@@ -2426,7 +2426,17 @@ private void constructOneLBLocationMap(FileStatus fSta,
       environmentContext.putToProperties(StatsSetupConst.DO_NOT_UPDATE_STATS, StatsSetupConst.TRUE);
     }
 
-    alterTable(tbl, environmentContext);
+    try {
+      alterTable(tbl, environmentContext);
+    } catch (HiveException e) {
+      try {
+        cleanupLeftoverFiles(tbl, FileUtils.HIDDEN_FILES_PATH_FILTER, conf, true);
+      } catch (IOException ioe) {
+        throw new HiveException(ioe);
+      }
+      throw e;
+    }
+
 
     if (conf.getBoolVar(ConfVars.FIRE_EVENTS_FOR_DML) && !tbl.isTemporary()) {
       fireInsertEvent(tbl, null, (loadFileType == LoadFileType.REPLACE_ALL), newFiles);
@@ -3440,6 +3450,28 @@ private void constructOneLBLocationMap(FileStatus fSta,
           throw handlePoolException(pool, e);
         }
       }
+    }
+  }
+
+  private static void cleanupLeftoverFiles(Table table, PathFilter pathFilter,
+                                           HiveConf conf, boolean purge) throws IOException, HiveException {
+    Path path = table.getPath();
+    FileSystem fs = table.getDataLocation().getFileSystem(conf);
+
+    FileStatus[] statuses = fs.listStatus(path, pathFilter);
+    if (statuses == null || statuses.length == 0) {
+      return;
+    }
+    if (Utilities.FILE_OP_LOGGER.isTraceEnabled()) {
+      String s = "Deleting files under " + path + " due to intermediate failure: ";
+      for (FileStatus file : statuses) {
+        s += file.getPath().getName() + ", ";
+      }
+      Utilities.FILE_OP_LOGGER.trace(s);
+    }
+
+    if (!trashFiles(fs, statuses, conf, purge)) {
+      throw new HiveException("Files under path " + path + " have not been cleaned up.");
     }
   }
 
