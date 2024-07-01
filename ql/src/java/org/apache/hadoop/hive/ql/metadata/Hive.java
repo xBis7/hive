@@ -32,6 +32,7 @@ import static org.apache.hadoop.hive.ql.parse.DDLSemanticAnalyzer.makeBinaryPred
 import static org.apache.hadoop.hive.serde.serdeConstants.SERIALIZATION_FORMAT;
 import static org.apache.hadoop.hive.serde.serdeConstants.STRING_TYPE_NAME;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -2429,14 +2430,9 @@ private void constructOneLBLocationMap(FileStatus fSta,
     try {
       alterTable(tbl, environmentContext);
     } catch (HiveException e) {
-      try {
-        cleanupLeftoverFiles(tbl, FileUtils.HIDDEN_FILES_PATH_FILTER, conf, true);
-      } catch (IOException ioe) {
-        throw new HiveException(ioe);
-      }
+      cleanupLeftoverFiles(loadPath, tbl, conf, true);
       throw e;
     }
-
 
     if (conf.getBoolVar(ConfVars.FIRE_EVENTS_FOR_DML) && !tbl.isTemporary()) {
       fireInsertEvent(tbl, null, (loadFileType == LoadFileType.REPLACE_ALL), newFiles);
@@ -3453,26 +3449,90 @@ private void constructOneLBLocationMap(FileStatus fSta,
     }
   }
 
-  private static void cleanupLeftoverFiles(Table table, PathFilter pathFilter,
-                                           HiveConf conf, boolean purge) throws IOException, HiveException {
-    Path path = table.getPath();
-    FileSystem fs = table.getDataLocation().getFileSystem(conf);
-
-    FileStatus[] statuses = fs.listStatus(path, pathFilter);
-    if (statuses == null || statuses.length == 0) {
-      return;
+  private static void cleanupLeftoverFiles(Path srcPath, Table table,
+                                           HiveConf conf, boolean purge) throws HiveException {
+    FileStatus[] srcRootStatuses;
+    FileSystem srcFs;
+    try {
+      srcFs = srcPath.getFileSystem(conf);
+      // Get all statuses for the src dir.
+      srcRootStatuses = srcFs.globStatus(srcPath);
+    } catch (IOException e) {
+      LOG.error(StringUtils.stringifyException(e));
+      throw new HiveException("addFiles: filesystem error in check phase. " + e.getMessage(), e);
     }
-    if (Utilities.FILE_OP_LOGGER.isTraceEnabled()) {
-      String s = "Deleting files under " + path + " due to intermediate failure: ";
-      for (FileStatus file : statuses) {
-        s += file.getPath().getName() + ", ";
+
+    // Sort the files
+    Arrays.sort(srcRootStatuses);
+    // The src dir might be containing sub dirs as well.
+    // Get all statuses for the files under the sub dirs, if they exist.
+    FileStatus[] srcDirAllStatuses = new FileStatus[0];
+    for (FileStatus src : srcRootStatuses) {
+      if (src.isDirectory()) {
+        try {
+          srcDirAllStatuses = srcFs.listStatus(src.getPath(), FileUtils.HIDDEN_FILES_PATH_FILTER);
+        } catch (IOException e) {
+          throw new HiveException(e);
+        }
+      } else {
+        srcDirAllStatuses = new FileStatus[]{src};
       }
-      Utilities.FILE_OP_LOGGER.trace(s);
     }
 
-    if (!trashFiles(fs, statuses, conf, purge)) {
-      throw new HiveException("Files under path " + path + " have not been cleaned up.");
+    try {
+      Path path = table.getPath();
+      FileSystem fs = table.getDataLocation().getFileSystem(conf);
+
+      // Get the statuses for all the table files.
+      FileStatus[] tableStatuses = fs.listStatus(path, FileUtils.HIDDEN_FILES_PATH_FILTER);
+      if (tableStatuses == null || tableStatuses.length == 0) {
+        return;
+      }
+
+      // Get the common statuses between the table files and the srcDirFiles.
+      // Returns an array of the common files but the statuses will belong to the tableStatuses.
+      // This new array will be used for identifying the files to be deleted.
+      FileStatus[] commonStatuses = getCommonFileNamesAndReturnTableStatuses(tableStatuses, srcDirAllStatuses, true);
+
+      if (Utilities.FILE_OP_LOGGER.isTraceEnabled()) {
+        String s = "Deleting files under " + path + " due to intermediate failure: ";
+        for (FileStatus file : commonStatuses) {
+          s += file.getPath().getName() + ", ";
+        }
+        Utilities.FILE_OP_LOGGER.trace(s);
+      }
+
+      if (!trashFiles(fs, commonStatuses, conf, purge)) {
+        throw new HiveException("Files under path " + path + " have not been cleaned up.");
+      }
+    } catch (IOException e) {
+      throw new HiveException(e);
     }
+  }
+
+  private static FileStatus[] getCommonFileNamesAndReturnTableStatuses(
+      FileStatus[] tableStatuses, FileStatus[] srcDirStatuses, boolean getTableStatuses) {
+    List<FileStatus> commonFiles = new ArrayList<>();
+
+    for (FileStatus tableStatus : tableStatuses) {
+      for (FileStatus srcStatus : srcDirStatuses) {
+        File tableFile = new File(tableStatus.getPath().toUri());
+        String tableFileName = tableFile.getName();
+
+        File srcFile = new File(srcStatus.getPath().toUri());
+        String srcFileName = srcFile.getName();
+
+        if (tableFileName.equals(srcFileName)) {
+          if (getTableStatuses) {
+            commonFiles.add(tableStatus);
+          } else {
+            commonFiles.add(srcStatus);
+          }
+        }
+      }
+    }
+
+    return commonFiles.toArray(new FileStatus[0]);
   }
 
   private static boolean isSubDir(Path srcf, Path destf, FileSystem srcFs, FileSystem destFs, boolean isSrcLocal) {
