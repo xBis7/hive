@@ -8853,8 +8853,9 @@ public class HiveMetaStore extends ThriftHiveMetastore {
       // It doesn't check whether the msUri is valid.
       boolean localMetaStore = MetastoreConf.isEmbeddedMetaStore(msUri);
       if (localMetaStore) {
-        throw new MetaException("Local/Embedded metastore is not allowed. Please configure "
-            + ConfVars.THRIFT_URIS + "; it is currently set to [" + msUri + "]");
+        throw new MetaException("Local/Embedded metastore is not allowed. Please configure '"
+            + ConfVars.THRIFT_URIS.getVarname() + "' or '" + ConfVars.THRIFT_URIS.getHiveName() +
+            "'; it is currently set to [" + msUri + "]");
       }
 
       Lock startLock = new ReentrantLock();
