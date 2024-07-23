@@ -81,6 +81,10 @@
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-log4j12</artifactId>
        </exclusion>
+       <exclusion>
+         <groupId>com.zaxxer</groupId>
+         <artifactId>HikariCP-java7</artifactId>
+       </exclusion>
      </exclusions>
    </dependency>
    <dependency>
@@ -93,6 +97,10 @@
        <exclusion>
          <groupId>com.codahale.metrics</groupId>
          <artifactId>metrics-core</artifactId>
+       </exclusion>
+       <exclusion>
+         <groupId>com.zaxxer</groupId>
+         <artifactId>HikariCP-java7</artifactId>
        </exclusion>
      </exclusions>
    </dependency>
