@@ -59,6 +59,16 @@
     <value>false</value>
   </property>
 
+  <property>
+    <name>hikari.connectionTimeout</name>
+    <value>60000</value>
+  </property>
+
+  <property>
+    <name>hive.metastore.try.direct.sql</name>
+    <value>true</value>
+  </property>
+
   <!-- Configure Metastore for Storage Based Authorization -->
   <property>
     <name>hive.metastore.pre.event.listeners</name>
