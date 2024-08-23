@@ -56,9 +56,21 @@ fi
 # Make hive dir writable
 chmod 777 /tmp/hive
 
+chown -R root:root /etc/security/keytabs
+
+ls -lah /etc/security
+
+ls -lah /etc/security/keytabs
+
 # Debugger
-export HADOOP_CLIENT_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+export HADOOP_CLIENT_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -Dsun.security.krb5.debug=true -Dsun.security.spnego.debug=true"
 
 # Start the metastore
 export METASTORE_PORT=${METASTORE_PORT:-9083}
+
+apt-get update && apt-get install -y sudo wget curl lsof
+apt-get install -y --no-install-recommends krb5-user
+
+kinit -kt /etc/security/keytabs/hive.hive-metastore.keytab hive/hive-metastore@EXAMPLE.COM
+
 exec $HIVE_HOME/bin/hive --skiphadoopversion --skiphbasecp $VERBOSE_MODE --service metastore

@@ -43,13 +43,14 @@ services:
     ports:
       - '9083:9083' # Metastore Thrift
       - '5005:5005' # Debugger
+    user: root
     volumes:
       - ../..:/opt/hive
       - ./ranger:/etc/ranger
       - ./conf:/opt/hive/conf
       - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
-#      - ./kerberos-files/krb5.conf:/etc/krb5.conf:rw
-#      - ./kerberos-files/keytabs:/etc/security/keytabs:rw
+      - ./kerberos-files/krb5.conf:/etc/krb5.conf:rw
+      - ./kerberos-files/keytabs:/etc/security/keytabs:rw
     entrypoint: ["/usr/local/bin/entrypoint.sh"]
     environment:
       - HADOOP_HOME=/opt/hadoop
