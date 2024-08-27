@@ -41,7 +41,7 @@
 
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
-    <value>jdbc:postgresql://postgres:5432/metastore_db?useSSL=false</value>
+    <value>jdbc:postgresql://postgres:5432/metastore_db?tcpKeepAlive=true</value>
   </property>
 
   <property>
@@ -87,23 +87,51 @@
     <value>hive.security.authorization.enabled,hive.security.authorization.manager,hive.security.authenticator.manager</value>
   </property>
 
-<!--  Needed if Kerberos is configured-->
+  <!--  Needed if Kerberos is configured-->
   <property>
     <name>hive.security.authenticator.manager</name>
-    <!--    <value>org.apache.hadoop.hive.ql.security.HadoopDefaultMetastoreAuthenticator</value>-->
-    <value>org.apache.hadoop.hive.ql.security.SessionStateUserAuthenticator</value>
+    <value>org.apache.hadoop.hive.ql.security.HadoopDefaultMetastoreAuthenticator</value>
   </property>
 
+<!--  <property>-->
+<!--    <name>hive.cluster.delegation.token.store.class</name>-->
+<!--    <value>org.apache.hadoop.hive.thrift.DBTokenStore</value>-->
+<!--  </property>-->
+
+<!--  <property>-->
+<!--    <name>hive.cluster.delegation.token.store.db.connectionstring</name>-->
+<!--    <value>jdbc:postgresql://postgres:5432/metastore_db?tcpKeepAlive=true</value>-->
+<!--  </property>-->
+
+<!--  <property>-->
+<!--    <name>hive.cluster.delegation.token.store.db.user</name>-->
+<!--    <value>postgres</value>-->
+<!--  </property>-->
+
+<!--  <property>-->
+<!--    <name>hive.cluster.delegation.token.store.db.password</name>-->
+<!--    <value>postgres</value>-->
+<!--  </property>-->
+
+<!--  <property>-->
+<!--    <name>hive.cluster.delegation.token.store.db.driver</name>-->
+<!--    <value>org.postgresql.Driver</value>-->
+<!--  </property>-->
+
+<!--  <property>-->
+<!--    <name>hive.metastore.authentication</name>-->
+<!--    <value>KERBEROS</value>-->
+<!--  </property>-->
   <property>
     <name>hive.metastore.sasl.enabled</name>
     <value>true</value>
   </property>
   <property>
-    <name>hive.metastore.kerberos.principal</name>
+    <name>metastore.kerberos.principal</name>
     <value>hive/hive-metastore@EXAMPLE.COM</value>
   </property>
   <property>
-    <name>hive.metastore.kerberos.keytab.file</name>
+    <name>metastore.kerberos.keytab.file</name>
     <value>/etc/security/keytabs/hive.hive-metastore.keytab</value>
   </property>
 

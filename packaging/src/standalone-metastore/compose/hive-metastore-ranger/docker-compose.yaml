@@ -33,9 +33,9 @@ services:
 
   hive-metastore:
     image: ${HIVE_RUNNER_IMAGE}:${HIVE_RUNNER_VERSION}
-# Enable privileged mode for creating a flamegraph.
-# The extra permissions are needed for enabling CPU and kernel profiling on the container.
-#    privileged: true
+    # Enable privileged mode for creating a flamegraph.
+    # The extra permissions are needed for enabling CPU and kernel profiling on the container.
+    #    privileged: true
     hostname: hive-metastore
     depends_on:
       postgres:
@@ -49,7 +49,9 @@ services:
       - ./ranger:/etc/ranger
       - ./conf:/opt/hive/conf
       - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
-      - ./kerberos-files/krb5.conf:/etc/krb5.conf:rw
+      # Append .orig to the file so that we can rename
+      # it after krb5-user installation has finished.
+      - ./kerberos-files/krb5.conf:/etc/krb5.conf.orig:rw
       - ./kerberos-files/keytabs:/etc/security/keytabs:rw
     entrypoint: ["/usr/local/bin/entrypoint.sh"]
     environment:
