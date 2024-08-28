@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<configuration>
+
+  <property>
+    <name>fs.defaultFS</name>
+    <value>hdfs://namenode</value>
+  </property>
+
+  <property>
+    <name>fs.defaultFS.name</name>
+    <value>hdfs://namenode</value>
+  </property>
+
+  <property>
+    <name>hadoop.proxyuser.hive.hosts</name>
+    <value>*</value>
+  </property>
+  <property>
+    <name>hadoop.proxyuser.hive.groups</name>
+    <value>*</value>
+  </property>
+
+  <!-- kerberos -->
+  <property>
+    <name>hadoop.security.authentication</name>
+    <value>kerberos</value>
+  </property>
+  <property>
+    <name>hadoop.security.authorization</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hadoop.security.krb5.conf</name>
+    <value>/etc/krb5.conf</value>
+  </property>
+
+  <property>
+    <name>hadoop.security.auth_to_local</name>
+    <value>RULE:[1:$1@$0](.*@EXAMPLE.COM)s/@.*//DEFAULT</value>
+  </property>
+</configuration>

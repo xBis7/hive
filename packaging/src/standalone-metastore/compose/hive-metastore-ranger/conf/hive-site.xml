@@ -93,35 +93,6 @@
     <value>org.apache.hadoop.hive.ql.security.HadoopDefaultMetastoreAuthenticator</value>
   </property>
 
-<!--  <property>-->
-<!--    <name>hive.cluster.delegation.token.store.class</name>-->
-<!--    <value>org.apache.hadoop.hive.thrift.DBTokenStore</value>-->
-<!--  </property>-->
-
-<!--  <property>-->
-<!--    <name>hive.cluster.delegation.token.store.db.connectionstring</name>-->
-<!--    <value>jdbc:postgresql://postgres:5432/metastore_db?tcpKeepAlive=true</value>-->
-<!--  </property>-->
-
-<!--  <property>-->
-<!--    <name>hive.cluster.delegation.token.store.db.user</name>-->
-<!--    <value>postgres</value>-->
-<!--  </property>-->
-
-<!--  <property>-->
-<!--    <name>hive.cluster.delegation.token.store.db.password</name>-->
-<!--    <value>postgres</value>-->
-<!--  </property>-->
-
-<!--  <property>-->
-<!--    <name>hive.cluster.delegation.token.store.db.driver</name>-->
-<!--    <value>org.postgresql.Driver</value>-->
-<!--  </property>-->
-
-<!--  <property>-->
-<!--    <name>hive.metastore.authentication</name>-->
-<!--    <value>KERBEROS</value>-->
-<!--  </property>-->
   <property>
     <name>hive.metastore.sasl.enabled</name>
     <value>true</value>

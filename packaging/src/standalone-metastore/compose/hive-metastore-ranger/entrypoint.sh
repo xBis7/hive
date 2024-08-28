@@ -63,7 +63,7 @@ ls -lah /etc/security
 ls -lah /etc/security/keytabs
 
 # Debugger
-export HADOOP_CLIENT_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -Dsun.security.krb5.debug=true -Dsun.security.spnego.debug=true"
+export HADOOP_CLIENT_OPTS="$HADOOP_CLIENT_OPTS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 
 cat /etc/hosts
 
@@ -80,6 +80,10 @@ sudo rm /etc/krb5.conf
 # Make a copy and rename of the mounted krb5.conf.
 sudo cp /etc/krb5.conf.orig /etc/krb5.conf
 
+export HADOOP_OPTS="$HADOOP_OPTS -Djava.security.krb5.conf=/etc/krb5.conf -Djavax.security.auth.useSubjectCredsOnly=false -Dsun.security.krb5.debug=true -Dsun.security.jgss.debug=true -Dsun.security.spnego.debug=true"
+#export HADOOP_JAAS_DEBUG=true
+#export KRB5_TRACE=/tmp/kinit.log
+
 if kinit -kt /etc/security/keytabs/hive.hive-metastore.keytab hive/hive-metastore@EXAMPLE.COM; then
     echo "Kerberos authentication successful"
 else
@@ -89,7 +93,4 @@ fi
 
 klist
 
-export HADOOP_PROXY_USER=hive/hive-metastore@EXAMPLE.COM
-
 exec $HIVE_HOME/bin/hive --skiphadoopversion --skiphbasecp $VERBOSE_MODE --service metastore # --hiveconf hive.root.logger=DEBUG,console
-

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<configuration>
+
+  <property>
+    <name>dfs.namenode.rpc-address</name>
+    <value>namenode:8020</value>
+  </property>
+
+  <!-- kerberos -->
+  <property>
+    <name>dfs.namenode.kerberos.principal</name>
+    <value>hadoop/namenode@EXAMPLE.COM</value>
+  </property>
+
+  <property>
+    <name>dfs.namenode.keytab.file</name>
+    <value>/etc/security/keytabs/hadoop.namenode.keytab</value>
+  </property>
+
+  <property>
+    <name>dfs.datanode.kerberos.principal</name>
+    <value>hadoop/dn1@EXAMPLE.COM</value>
+  </property>
+
+  <property>
+    <name>dfs.datanode.keytab.file</name>
+    <value>/etc/security/keytabs/hadoop.dn1.keytab</value>
+  </property>
+
+  <property>
+    <name>dfs.web.authentication.kerberos.principal</name>
+    <value>HTTP/ranger@EXAMPLE.COM</value>
+  </property>
+
+</configuration>
