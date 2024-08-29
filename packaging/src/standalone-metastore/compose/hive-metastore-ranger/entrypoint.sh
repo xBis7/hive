@@ -93,4 +93,10 @@ fi
 
 klist
 
+ranger_ip_address=$(getent hosts ranger | awk '{ print $1 }')
+echo "$ranger_ip_address      ranger ranger.example.com ranger.rangernw" | sudo tee -a /etc/hosts
+
+ranger_kms_ip_address=$(getent hosts ranger-kms | awk '{ print $1 }')
+echo "$ranger_kms_ip_address      ranger-kms ranger-kms.rangernw" | sudo tee -a /etc/hosts
+
 exec $HIVE_HOME/bin/hive --skiphadoopversion --skiphbasecp $VERBOSE_MODE --service metastore # --hiveconf hive.root.logger=DEBUG,console
