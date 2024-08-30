@@ -19,12 +19,12 @@
 
   <property>
     <name>dfs.datanode.kerberos.principal</name>
-    <value>hadoop/dn1@EXAMPLE.COM</value>
+    <value>hadoop/datanode-1@EXAMPLE.COM</value>
   </property>
 
   <property>
     <name>dfs.datanode.keytab.file</name>
-    <value>/etc/security/keytabs/hadoop.dn1.keytab</value>
+    <value>/etc/security/keytabs/hadoop.datanode-1.keytab</value>
   </property>
 
   <property>
